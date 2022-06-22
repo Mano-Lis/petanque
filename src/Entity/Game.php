@@ -29,4 +29,14 @@ class Game
     {
         $this->teams = new ArrayCollection();
     }
+
+    public function addTeam(Team $team)
+    {
+        $this->teams->add($team);
+    }
+
+    public function removeTeam(Team $team)
+    {
+        $this->teams->removeElement($team);
+    }
 }
