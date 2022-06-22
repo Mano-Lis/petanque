@@ -33,4 +33,14 @@ class Team
     {
         $this->players = new ArrayCollection();
     }
+
+    public function addPlayer($player)
+    {
+        $this->players->add($player);
+    }
+
+    public function removePlayer($player)
+    {
+        $this->players->removeElement($player);
+    }
 }
