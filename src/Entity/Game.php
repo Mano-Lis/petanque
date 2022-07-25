@@ -12,6 +12,7 @@ use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\OneToMany;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Validator as CustomAssert;
+use DateTimeImmutable;
 
 #[Entity(repositoryClass: GameRepository::class)]
 class Game
@@ -27,6 +28,7 @@ class Game
     private Collection $teams;
 
     #[Column()]
+    #[Assert\LessThan(new DateTimeImmutable())]
     public \DateTimeImmutable $playedAt;
 
     public function __construct()

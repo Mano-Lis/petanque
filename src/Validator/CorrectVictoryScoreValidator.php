@@ -19,11 +19,13 @@ class CorrectVictoryScoreValidator extends ConstraintValidator
                 ->addViolation();
         }
 
-        if ($teams[0]->score > $teams[1]->score) {
-            $highScore = $teams[0]->score;
-        } else {
-            $highScore = $teams[1]->score;
-        }
+        // if ($teams[0]->score > $teams[1]->score) {
+        //     $highScore = $teams[0]->score;
+        // } else {
+        //     $highScore = $teams[1]->score;
+        // }
+
+        $highScore = $teams[0]->score > $teams[1]->score ? $teams[0]->score : $teams[1]->score;
 
         if ($highScore !== 13) {
             $this->context->buildViolation($constraint->message1)
