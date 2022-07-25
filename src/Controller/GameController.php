@@ -44,6 +44,7 @@ class GameController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $game = $form->getData();
+            
             // $errors = $validator->validate($game);
 
             // if (count($errors) > 0) {

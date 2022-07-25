@@ -11,6 +11,7 @@ use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\OneToMany;
 use Symfony\Component\Validator\Constraints as Assert;
+use App\Validator as CustomAssert;
 
 #[Entity(repositoryClass: GameRepository::class)]
 class Game
@@ -22,6 +23,7 @@ class Game
 
     #[OneToMany(targetEntity: Team::class, mappedBy: 'game', cascade: ['persist'])]
     #[Assert\Valid()]
+    #[CustomAssert\CorrectVictoryScore()]
     private Collection $teams;
 
     #[Column()]
