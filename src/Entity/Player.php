@@ -8,6 +8,7 @@ use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping\ManyToMany;
 
 #[Entity(repositoryClass: PlayerRepository::class)]
@@ -16,9 +17,10 @@ class Player
     #[Column()]
     #[Id()]
     #[GeneratedValue()]
-    public int $id;
+    public ?int $id = null;
     
     #[Column()]
+    #[Assert\NotBlank()]
     public string $name;
 
     // public int $score = 0;

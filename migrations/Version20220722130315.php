@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20220617111746 extends AbstractMigration
+final class Version20220722130315 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -26,7 +26,7 @@ final class Version20220617111746 extends AbstractMigration
         $this->addSql('CREATE TABLE game (id INT NOT NULL, played_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, PRIMARY KEY(id))');
         $this->addSql('COMMENT ON COLUMN game.played_at IS \'(DC2Type:datetime_immutable)\'');
         $this->addSql('CREATE TABLE player (id INT NOT NULL, name VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
-        $this->addSql('CREATE TABLE team (id INT NOT NULL, game_id INT DEFAULT NULL, score INT DEFAULT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE team (id INT NOT NULL, game_id INT NOT NULL, score INT DEFAULT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_C4E0A61FE48FD905 ON team (game_id)');
         $this->addSql('CREATE TABLE team_player (team_id INT NOT NULL, player_id INT NOT NULL, PRIMARY KEY(team_id, player_id))');
         $this->addSql('CREATE INDEX IDX_EE023DBC296CD8AE ON team_player (team_id)');
@@ -50,18 +50,6 @@ final class Version20220617111746 extends AbstractMigration
 
     public function down(Schema $schema): void
     {
-        // this down() migration is auto-generated, please modify it to your needs
-        $this->addSql('CREATE SCHEMA public');
-        $this->addSql('ALTER TABLE team DROP CONSTRAINT FK_C4E0A61FE48FD905');
-        $this->addSql('ALTER TABLE team_player DROP CONSTRAINT FK_EE023DBC99E6F5DF');
-        $this->addSql('ALTER TABLE team_player DROP CONSTRAINT FK_EE023DBC296CD8AE');
-        $this->addSql('DROP SEQUENCE game_id_seq CASCADE');
-        $this->addSql('DROP SEQUENCE player_id_seq CASCADE');
-        $this->addSql('DROP SEQUENCE team_id_seq CASCADE');
-        $this->addSql('DROP TABLE game');
-        $this->addSql('DROP TABLE player');
-        $this->addSql('DROP TABLE team');
-        $this->addSql('DROP TABLE team_player');
-        $this->addSql('DROP TABLE messenger_messages');
+        $this->throwIrreversibleMigrationException();
     }
 }

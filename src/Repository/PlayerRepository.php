@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Player;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\ORM\Query\ResultSetMappingBuilder;
 
 /**
  * @extends ServiceEntityRepository<Player>
@@ -37,6 +38,44 @@ class PlayerRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+
+    public function rankPlayers()
+    {
+        $entityManager = $this->getEntityManager();
+
+        $rsm = new ResultSetMappingBuilder($entityManager);
+        $rsm->addRootEntityFromClassMetadata(Player::class, 'p');
+        $rsm->addScalarResult('points', 'points');
+
+        $select = $rsm->generateSelectClause(['p']);
+
+        $query = $entityManager->createNativeQuery(<<<SQL
+        select
+            $select,
+            s.points as points
+        from
+            player p
+        left join (
+            select
+                player_id,
+                count(game_id)* 3 as points
+            from
+                team
+            join team_player on
+                team_player.team_id = team.id
+            where
+                team.score >= 13
+            group by
+                player_id
+        ) s on
+            s.player_id = p.id
+        order by
+            s.points asc
+        SQL, $rsm);
+
+
+        return $query->getResult();
     }
 
 //    /**

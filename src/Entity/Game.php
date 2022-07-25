@@ -10,6 +10,7 @@ use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\OneToMany;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[Entity(repositoryClass: GameRepository::class)]
 class Game
@@ -17,10 +18,11 @@ class Game
     #[Column()]
     #[Id()]
     #[GeneratedValue()]
-    public int $id;
+    public ?int $id = null;
 
-    #[OneToMany(targetEntity: Team::class, mappedBy: 'game')]
-    public Collection $teams;
+    #[OneToMany(targetEntity: Team::class, mappedBy: 'game', cascade: ['persist'])]
+    #[Assert\Valid()]
+    private Collection $teams;
 
     #[Column()]
     public \DateTimeImmutable $playedAt;
@@ -30,13 +32,25 @@ class Game
         $this->teams = new ArrayCollection();
     }
 
-    public function addTeam(Team $team)
+    public function getId(): int
     {
-        $this->teams->add($team);
+        return $this->id;
     }
 
-    public function removeTeam(Team $team)
+    public function addTeam(Team $team): void
+    {
+        $this->teams->add($team);
+        $team->game = $this;
+    }
+
+    public function removeTeam(Team $team): void
     {
         $this->teams->removeElement($team);
+        $team->game = null;
+    }
+
+    public function getTeams(): Collection
+    {
+        return $this->teams;
     }
 }
