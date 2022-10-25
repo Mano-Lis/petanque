@@ -1,6 +1,7 @@
 # petanque 
 
-Install
+
+# Install
 
 dokcer-compose up -d
 
@@ -10,9 +11,10 @@ symfony serve -d
 
 
 
-Reproduce the bug in the form
+# Reproduce the bug in the form
 
 Go to /admin 
+
 Create 3 players 
 
 go to /gameform
