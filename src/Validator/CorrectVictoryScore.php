@@ -10,5 +10,5 @@ class CorrectVictoryScore extends Constraint
 {
     public string $message1 = "High score of the match must be 13";
 
-    public string $message2 = "Result can't be a draw";
+    public string $message2 = "Only one team can score 13";
 }

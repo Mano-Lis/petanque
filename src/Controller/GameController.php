@@ -56,7 +56,7 @@ class GameController extends AbstractController
             $em->flush();
         }
     
-        return $this->renderForm('result.html.twig', [
+        return $this->renderForm('gameform.html.twig', [
             'form' => $form
         ]);
     }
