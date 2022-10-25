@@ -1,0 +1,15 @@
+{% for team in entity.instance.teams %}
+<div>
+    {% if loop.first %}
+        <b>Winner!</b> ({{ team.score }})
+    {% else %}
+        {{ team.score }}
+    {% endif %}
+
+    <ul>
+    {% for player in team.players %}
+    <li>{{ player.name }}</li>
+    {% endfor %}
+    </ul>
+</div>
+{% endfor %}

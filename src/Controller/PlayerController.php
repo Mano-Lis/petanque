@@ -2,14 +2,17 @@
 
 namespace App\Controller;
 
+use App\Repository\PlayerRepository;
+use App\Repository\TeamRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
 class PlayerController extends AbstractController
 {
     #[Route('/', name: 'app_homepage')]
-    public function homepage()
+    public function homepage(PlayerRepository $playerRepository)
     {
+        // dd($playerRepository->rankPlayers());
         return $this->render('homepage.html.twig', [
             'title' => 'Accueil'
         ]);
@@ -18,6 +21,6 @@ class PlayerController extends AbstractController
     #[Route('/player/{slug}', name: 'app_player')]
     public function playerResult()
     {
-        return $this->render('results.html.twig');
+        return $this->render('cardboard.html.twig');
     }
 }

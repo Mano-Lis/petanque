@@ -11,6 +11,7 @@ const addPlayerFormDeleteLink = (item) => {
     });
 }
 
+
 const addFormToCollection = (e) => {
   const collectionHolder = document.querySelector('.' + e.currentTarget.dataset.collectionHolderClass);
 
@@ -30,6 +31,12 @@ const addFormToCollection = (e) => {
 
   collectionHolder.dataset.index++;
 };
+
+document
+    .querySelectorAll('ul.teams li')
+    .forEach((player) => {
+        addPlayerFormDeleteLink(player)
+    });
 document
     .querySelectorAll('ul.players li')
     .forEach((player) => {

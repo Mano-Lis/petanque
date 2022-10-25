@@ -8,18 +8,27 @@ use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping\ManyToMany;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[Entity(repositoryClass: PlayerRepository::class)]
+#[UniqueEntity('name')]
 class Player
 {   
     #[Column()]
     #[Id()]
     #[GeneratedValue()]
-    public int $id;
+    public ?int $id = null;
     
-    #[Column()]
+    #[Column(unique: true)]
+    #[Assert\NotBlank()]
     public string $name;
+
+    public function __toString()
+    {
+        return $this->name;
+    }
 
     // public int $score = 0;
 
@@ -28,4 +37,9 @@ class Player
     // public int $defeats = 0;
 
     // public int $rank;
+
+    public function getName()
+    {
+        return $this->name;
+    }
 }

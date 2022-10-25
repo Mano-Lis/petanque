@@ -7,47 +7,56 @@ use App\Entity\Player;
 use App\Entity\Team;
 use App\Form\GameFormType;
 use App\Form\TeamFormType;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class GameController extends AbstractController
 {
     #[Route('/gameform', name: 'app_game_form')]
-    public function gameForm(Request $request): Response
+    public function gameForm(Request $request, EntityManagerInterface $em, ValidatorInterface $validator): Response
     {
+        $game = new Game();
 
-        $team = new Team();
-        
+        /*
         $player1 = new Player();
-        $player1->name = 'John';
-        $team->addPlayer($player1);
+        $player1->name = 'manu';
+
+        $team1 = new Team();
+        $team1->addPlayer($player1);
         
         $player2 = new Player();
-        $player2->name = 'Jane';
-        $team->addPlayer($player2);
+        $player2->name = 'kiki';
 
+        $team2 = new Team();
+        $team2->addPlayer($player2);
 
-        $player3 = new Player();
-        $player3->name = 'Jack';
-        $team->addPlayer($player3);
-
+        $game = new Game();
+        $game->addTeam($team1);
+        $game->addTeam($team2);
+        */
         
-        $player4 = new Player();
-        $player4->name = 'Janis';
-        $team->addPlayer($player4);
-
-
-        $form = $this->createForm(TeamFormType::class, $team);
+        $form = $this->createForm(GameFormType::class, $game);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $e = $form->getData();
-            dd($e);
+            $game = $form->getData();
+            
+            // $errors = $validator->validate($game);
+
+            // if (count($errors) > 0) {
+            //     $errorsString = (string) $errors;
+            //     return new Response($errorsString);
+            // }
+
+            $em->persist($game);
+            $em->flush();
         }
     
-        return $this->renderForm('result.html.twig', [
+        return $this->renderForm('gameform.html.twig', [
             'form' => $form
         ]);
     }
